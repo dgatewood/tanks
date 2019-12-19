@@ -1,0 +1,136 @@
+<html>
+<head>
+<style>
+*{padding: 0; margin:0;}
+canvas{ background: #eee; display: block; margin: 0 auto;}
+</style>
+</head>
+
+<body>
+<canvas id= "myCanvas" width="800" height="600"></canvas>
+<script type="text/javascript">
+var canvas = document.getElementById("myCanvas");
+var ctx = canvas.getContext("2d");
+document.addEventListener("mousemove", mouseMoveHandler, false);
+canvas.addEventListener("mousedown", getPosition, false);
+canvas.addEventListener("mouseup", getPosition2, false);
+var title = new Image();
+title.src = "title.png";
+var tank1TT = new Image();
+tank1TT.src = "tank1TT.png";
+var tank2TT = new Image();
+tank2TT.src = "tank1TT.png";
+var tank3TT = new Image();
+tank3TT.src = "tank1TT.png";
+var players2In = false;
+var players3In = false;
+
+var color = "rgb(0, 255, 0)";
+var pX = 400;
+var pY = 300;
+var hasStarted = false;
+var mouseIsDown = false;
+function getPosition2(event){
+mouseIsDown = false;
+}
+function getPosition(event){
+mouseIsDown = true;
+}
+function playPop(){
+var pop = new Audio();
+pop.src = "pop.wav";
+pop.play();
+}
+function mouseMoveHandler(e) {
+    pX = e.clientX - canvas.offsetLeft;
+    pY = e.clientY - canvas.offsetTop;
+}
+function startScreen()
+{
+// this draws the background
+	ctx.fillStyle = "rgb(255,255,255)";
+	ctx.fillRect(0, 0, 800, 600);
+// this draws all the tanks the tanks size are 138 x 185
+	
+	ctx.font = "60px Arial";
+	ctx.fillStyle = "rgb(0,0,255)"
+	ctx.drawImage(title, 30, 5);
+	ctx.drawImage(tank1TT, 15, 200);
+	ctx.drawImage(tank2TT, 153, 200);
+	ctx.drawImage(tank1TT, 394, 200);
+	ctx.drawImage(tank2TT, 512, 200);
+	ctx.drawImage(tank3TT, 650, 200);
+// this the if statements that draws the lables
+	if(pX >= 50 && pX <= 230 && pY >= 425 && pY <= 475)
+	{
+		
+		ctx.font = "45px Arial";
+		ctx.fillStyle = "rgb(224, 176, 255)"
+		ctx.fillText("2 Players", 50, 470);
+	 
+		if(mouseIsDown)
+		{
+			playPop();
+			<!-- hasStarted = true; -->
+			mouseIsDown = false;
+			players2In = true;
+		}
+	}
+	else
+	{
+		ctx.font = "45px Arial";
+		ctx.fillStyle = "rgb(0,0,0)"
+		ctx.fillText("2 Players", 50, 470);
+	}
+
+	if(pX >= 490 && pX <= 700 && pY >= 425 && pY <= 475)
+	{
+		ctx.font = "45px Arial";
+		ctx.fillStyle = "rgb(224, 176, 255)"
+		ctx.fillText("3 Players", 490, 470);
+		if(mouseIsDown)
+		{
+			playPop();
+			<!-- hasStarted = true; -->
+			mouseIsDown = false;
+			players3In = true;
+		}
+	}
+	else
+	{
+		ctx.font = "45px Arial";
+		ctx.fillStyle = "rgb(0,0,0)";
+		ctx.fillText("3 Players", 490, 470);
+	}
+	
+	if (players3In)
+	{
+		players2In = true;
+	}
+}
+
+
+
+function draw()
+{
+ctx.fillStyle = "rgb(0,0,0)";
+ctx.clearRect(0,0,800,600);
+if(players3In)
+{
+	//if three players have joined
+	ctx.fillText("3 Players", 300, 400);
+}
+else if(players2In)
+{
+	//if two players have joined
+	ctx.fillText("2 Players", 300, 400);
+}
+else
+{
+startScreen();
+}
+}
+setInterval(draw, 2);
+</script>
+</body>
+</html>
